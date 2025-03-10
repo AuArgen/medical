@@ -12,8 +12,8 @@ class DirectionsAdmin(admin.ModelAdmin):
 
 @admin.register(Doctor)
 class DoctorAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'phone',)
-    search_fields = ('name',)
+    list_display = ('user', 'phone',)
+    search_fields = ('user',)
 
 
 @admin.register(Testimony)

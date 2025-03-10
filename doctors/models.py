@@ -19,21 +19,20 @@ class Directions(models.Model):
 
 class Doctor(models.Model):
     direction = models.ForeignKey(Directions, on_delete=models.CASCADE, verbose_name='')
-    name = models.CharField(max_length=100, verbose_name='')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='')
     description = RichTextField(verbose_name='')
     image = models.ImageField(verbose_name='')
     phone = models.CharField(max_length=20, verbose_name='')
     whatsapp = models.CharField(max_length=255, verbose_name='')
     facebook = models.URLField(verbose_name='')
     instagram = models.URLField(verbose_name='')
-    email = models.EmailField(verbose_name='')
 
     class Meta:
         verbose_name = "Doctor"
         verbose_name_plural = "Doctors"
 
     def __str__(self):
-        return self.name
+        return self.user.email
 
 
 class Testimony(models.Model):
@@ -47,4 +46,4 @@ class Testimony(models.Model):
         verbose_name_plural = "Testimony"
 
     def __str__(self):
-        return self.doctor.name
+        return self.doctor.user.email
