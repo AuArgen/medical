@@ -4,7 +4,8 @@ from django.db import models
 # Create your models here.
 class About(models.Model):
     title = models.CharField(max_length=100, verbose_name='Тема')
-    description = RichTextField( verbose_name='Описание')
+    description = models.TextField(verbose_name='Короткий описание ')
+    read_more = RichTextField( verbose_name='Подробнее')
     image = models.ImageField(upload_to='about/images/', null=True, blank=True, verbose_name='Картинка')
 
 

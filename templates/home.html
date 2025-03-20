@@ -23,7 +23,9 @@
                                                     <i class="fa fa-play" aria-hidden="true"></i>
 
                                                 </button>
-                                                <a target="_blank" style="z-index: 10" class=" d-block w-100 h-100 position-absolute bg-transparent" href="{{ slide.video }}">
+                                                <a target="_blank" style="z-index: 10"
+                                                   class=" d-block w-100 h-100 position-absolute bg-transparent"
+                                                   href="{{ slide.video }}">
                                                 </a>
                                             </div>
                                             <h1>
@@ -98,9 +100,189 @@
 
     </section>
     <!-- end slider section -->
+
+
+
 {% endblock %}
 
 {% block content %}
-    <h1>Добро пожаловать на сайт!</h1>
-    <p>Это главная страница.</p>
+    <!-- about section -->
+    <section class="about_section layout_padding">
+        <div class="container  ">
+            <div class="row">
+                <div class="col-md-6 ">
+                    <div class="img-box">
+                        <img src="{{ about.image.url }}" alt="">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="detail-box">
+                        <div class="heading_container">
+                            <h2>
+                                {{ about.title }}
+                            </h2>
+                        </div>
+                        <p>
+                            {{ about.description }}
+                        </p>
+                        <a href="{% url 'about' %}">
+                            Подробнее
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end about section -->
+
+    <!-- treatment section -->
+
+    <section id="treatment_section" class="treatment_section layout_padding">
+        <div class="side_img">
+            <img src="images/treatment-side-img.jpg" alt="">
+        </div>
+        <div class="container">
+            <div class="heading_container heading_center">
+                <h2>
+                    Наши <span>Направлении</span>
+                </h2>
+            </div>
+            <div class="row">
+                {% for direction in directions %}
+
+
+                    <div class="col-md-6 col-lg-3">
+                        <div class="box ">
+                            <div class="img-box">
+                                <img src="{{ direction.image.url }}" alt="{{ direction.title }}">
+                            </div>
+                            <div class="detail-box">
+                                <h4>
+                                    {{ direction.title }}
+                                </h4>
+                                <p>
+                                    {{ direction.description }}
+                                </p>
+                                <a href="">
+                                    Подробнее
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- end treatment section -->
+
+    <!-- team section -->
+
+    <section id="doctors" class="team_section layout_padding">
+        <div class="container">
+            <div class="heading_container heading_center">
+                <h2>
+                    Наши <span>Врачи</span>
+                </h2>
+
+            </div>
+            <div class="carousel-wrap ">
+                <div class="owl-carousel team_carousel">
+                    {% for doctor in doctors %}
+                        <div class="item">
+                            <div class="box">
+                                <div class="img-box">
+                                    <img src="{{ doctor.image.url }}" alt="{{ doctor.user.last_name }}"/>
+                                </div>
+                                <div class="detail-box">
+
+
+                                    <h5>
+                                        <a href="" class="text-dark">
+                                            {{ doctor.user.last_name }} {{ doctor.user.first_name }}
+                                        </a>
+                                    </h5>
+                                    <h6>
+                                        {{ doctor.direction.title }}
+                                    </h6>
+                                    <div class="social_box">
+                                        <a href="{{ doctor.facebook }}" target="_blank">
+                                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="{{ doctor.whatsapp }}" target="_blank">
+                                            <i class="fa fa-whatsapp" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="tel:{{ doctor.phone }}" target="_blank">
+                                            <i class="fa fa-phone" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="{{ doctor.instagram }}" target="_blank">
+                                            <i class="fa fa-instagram" aria-hidden="true"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- end team section -->
+
+    <!-- contact section -->
+    <section id="contact" class="contact_section layout_padding">
+        <div class="container">
+            <div class="heading_container">
+                <h2>Свяжитесь с нами</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="form_container">
+                        <form id="contactForm">
+                            <div>
+                                <input type="text" id="fullName" placeholder="Полное имя" required/>
+                            </div>
+                            <div>
+                                <input type="email" id="email" placeholder="Электронная почта" required/>
+                            </div>
+                            <div>
+                                <input type="text" id="phoneNumber" placeholder="Номер телефона" required/>
+                            </div>
+                            <div>
+                                <input type="text" id="message" class="message-box" placeholder="Сообщение" required/>
+                            </div>
+                            <div class="btn_box">
+                                <button type="button" onclick="sendToWhatsApp()">ОТПРАВИТЬ</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="img-box">
+                        <img src="{% static 'images/contact-img.jpg' %}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function sendToWhatsApp() {
+                let name = document.getElementById("fullName").value;
+                let email = document.getElementById("email").value;
+                let phone = document.getElementById("phoneNumber").value;
+                let message = document.getElementById("message").value;
+
+                if (name && email && phone && message) {
+                    let text = `Имя: ${name}%0AЭлектронная почта: ${email}%0AНомер телефона: ${phone}%0AСообщение: ${message}`;
+                    let whatsappURL = `{{ website.whatsapp }}?text=${text}`;
+                    window.open(whatsappURL, "_blank");
+                } else {
+                    alert("Пожалуйста, заполните все поля");
+                }
+            }
+        </script>
+    </section>
+    <!-- end contact section -->
+
 {% endblock %}

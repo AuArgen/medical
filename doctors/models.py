@@ -6,7 +6,8 @@ from django.db import models
 # Create your models here.
 class Directions(models.Model):
     title = models.CharField(max_length=100, verbose_name='Название')
-    description = RichTextField(verbose_name='Описание')
+    description = models.TextField(verbose_name='Описание')
+    read_more = RichTextField(verbose_name='Подробнее')
     image = models.ImageField(verbose_name='Картинка')
 
     class Meta:

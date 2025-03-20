@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}О нас{% endblock %}
+
+{% block content %}
+    <!-- about section -->
+    <section class="about_section layout_padding">
+        <div class="container  ">
+            <div class="row">
+                <div class="col-md-6 ">
+                    <div class="img-box">
+                        <img src="{{ about.image.url }}" alt="">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="detail-box">
+                        <div class="heading_container">
+                            <h2>
+                                {{ about.title }}
+                            </h2>
+                        </div>
+                        <p>
+                            {{ about.description }}
+                        </p>
+                    </div>
+                </div>
+                <div class="col-12">
+                    {{ about.read_more|safe }}
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end about section -->
+
+
+    <!-- contact section -->
+    <section class="contact_section layout_padding-bottom">
+        <div class="container">
+            <div class="heading_container">
+                <h2>Свяжитесь с нами</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="form_container">
+                        <form id="contactForm">
+                            <div>
+                                <input type="text" id="fullName" placeholder="Полное имя" required/>
+                            </div>
+                            <div>
+                                <input type="email" id="email" placeholder="Электронная почта" required/>
+                            </div>
+                            <div>
+                                <input type="text" id="phoneNumber" placeholder="Номер телефона" required/>
+                            </div>
+                            <div>
+                                <input type="text" id="message" class="message-box" placeholder="Сообщение" required/>
+                            </div>
+                            <div class="btn_box">
+                                <button type="button" onclick="sendToWhatsApp()">ОТПРАВИТЬ</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="img-box">
+                        <img src="{% static 'images/contact-img.jpg' %}" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function sendToWhatsApp() {
+                let name = document.getElementById("fullName").value;
+                let email = document.getElementById("email").value;
+                let phone = document.getElementById("phoneNumber").value;
+                let message = document.getElementById("message").value;
+
+                if (name && email && phone && message) {
+                    let text = `Имя: ${name}%0AЭлектронная почта: ${email}%0AНомер телефона: ${phone}%0AСообщение: ${message}`;
+                    let whatsappURL = `{{ website.whatsapp }}?text=${text}`;
+                    window.open(whatsappURL, "_blank");
+                } else {
+                    alert("Пожалуйста, заполните все поля");
+                }
+            }
+        </script>
+    </section>
+    <!-- end contact section -->
+
+{% endblock %}
