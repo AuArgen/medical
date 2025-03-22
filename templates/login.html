@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Авторизация{% endblock %}
+
+{% block content %}
+
+    <!-- contact section -->
+    <section class="contact_section layout_padding">
+        <div class="container">
+            <div class="heading_container">
+                <h2>Авторизация</h2>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-7">
+                    <div class="form_container">
+                        <form id="contactForm" method="post">
+                            {% csrf_token %}
+
+                            {% if error_message %}
+                                <p style="color: red;">{{ error_message }}</p>
+                            {% endif %}
+                            <div>
+                                <input type="email" id="email" name="email" placeholder="Электронная почта" required/>
+                            </div>
+                            <div>
+                                <input type="password" id="password" name="password" placeholder="Пароль" required/>
+                            </div>
+                            <div class="w-100 row">
+                                <div class="col-md-6">
+                                    <div class="btn_box">
+                                        <button type="submit">Login</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="btn_box">
+                                        <button>
+                                            <a class="text-white" href="{% url 'register' %}">Sign up</a>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="img-box">
+                        <img src="https://img.freepik.com/free-vector/login-concept-illustration_114360-739.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end contact section -->
+
+{% endblock %}
