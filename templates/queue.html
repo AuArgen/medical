@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Запис{% endblock %}
+
+{% block content %}
+
+    <!-- contact section -->
+    <section class="contact_section layout_padding">
+        <div class="container">
+            <div class="heading_container">
+                <h2>Записаться в очередь</h2>
+                <h3>{{ doctor.user.last_name }} {{ doctor.user.first_name }}</h3>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-7">
+                    <div class="form_container">
+                        <form id="contactForm" method="post">
+                            {% csrf_token %}
+
+                            {% if error_message %}
+                                <p style="color: red;">{{ error_message }}</p>
+                            {% endif %}
+                            <div class="my-3">
+                                <textarea name="description" id="" cols="30" rows="10" class="form-control" placeholder="Описание..." required></textarea>
+                            </div>
+                            <div class="w-100 row">
+                                <div class="col-md-6">
+                                    <div class="btn_box">
+                                        <button type="submit">Записаться</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="img-box">
+                        <img src="https://cdn.vectorstock.com/i/500p/16/04/customer-support-manager-online-consultant-call-vector-24261604.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end contact section -->
+
+{% endblock %}

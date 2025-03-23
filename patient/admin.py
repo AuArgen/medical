@@ -10,4 +10,5 @@ class PatientAdmin(admin.ModelAdmin):
 
 @admin.register(QueuePatient)
 class QueuePatientAdmin(admin.ModelAdmin):
-    list_display = ('doctor', 'patient',)
+    list_display = ('doctor', 'patient','status', 'accepted')
+    list_filter = ('status','accepted', 'doctor')

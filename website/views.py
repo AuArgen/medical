@@ -1,10 +1,11 @@
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
+from django.utils import timezone
 
 from about.models import About
 from doctors.models import Directions, Doctor
-from patient.models import Patient
+from patient.models import Patient, QueuePatient
 from website.models import Website, Slider
 
 
@@ -94,3 +95,44 @@ def RegisterPage(request):
 def LogoutPage(request):
     logout(request)
     return redirect('home')
+
+
+def DcotorPage(request, pk):
+    website = Website.objects.first()
+    doctor = Doctor.objects.get(id=pk)
+    queues = QueuePatient.objects.filter(doctor=doctor,).order_by('-id').order_by('order')
+    context = {
+        'website': website,
+        'doctor': doctor,
+        'queues': queues,
+    }
+    return render(request, 'doctor.html', context)
+
+
+def DcotorQueuePage(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    if request.method == 'POST':
+        description = request.POST.get('description')
+        user = request.user
+        doctor = Doctor.objects.get(id=pk)
+        patient = Patient.objects.get(user=user)
+        order = QueuePatient.objects.filter(doctor=doctor).count()
+        patient = QueuePatient.objects.create(patient=patient, doctor=doctor,
+                                              description=description,
+                                              accepted=False,
+                                              status=False,
+                                              date_start=timezone.now(),
+                                              date_end=timezone.now(),
+                                              order=order + 1)
+
+        return redirect(f'/doctor/{pk}#list_queue')
+
+    website = Website.objects.first()
+    doctor = Doctor.objects.get(id=pk)
+    context = {
+        'website': website,
+        'doctor': doctor,
+    }
+    return render(request, 'queue.html', context)

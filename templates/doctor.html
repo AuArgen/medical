@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Доктор {{ doctor.user.last_name }} {{ doctor.user.first_name }}{% endblock %}
+
+{% block content %}
+
+    <!-- contact section -->
+    <section class="contact_section layout_padding">
+        <div class="container">
+            <div class="heading_container">
+                <h2>{{ doctor.user.last_name }} {{ doctor.user.first_name }}</h2>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-12">
+                    {{ doctor.description|safe }}
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="layout_padding">
+        <div class="row justify-content-center">
+            <div class="col-12 text-center">
+                QR-код для записаться в заявки
+            </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+            <a href="{% url 'queue' doctor.id %}">
+                <div id="qrcode"></div>
+            </a>
+            <script>
+                new QRCode(document.getElementById("qrcode"), '{% url 'queue' doctor.id %}');
+            </script>
+
+        </div>
+    </section>
+    <section class="layout_padding-bottom layout_padding overflow-auto p-2" style="max-width: 100%">
+        <div class="container">
+            <h3>Список очереди</h3>
+            <table class="table table-hover" id="list_queue">
+                <tr>
+                    <th>#</th>
+                    <th>ФИО</th>
+                    <th>Статус</th>
+                </tr>
+                {% for queue in queues %}
+                    <tr>
+                        <td>{{ queue.order }}</td>
+                        <td>{{ queue.patient.user.last_name }} {{ queue.patient.user.first_name }}</td>
+                        <td>
+                            {% if queue.status == False %}
+                                <span class="bg-danger p-2 text-white ">
+                                В ожидание
+                                </span>
+                            {% elif queue.accepted == False %}
+                                <span class="bg-primary p-2 text-white ">
+                                    {{ queue.date_start }}
+                                    -
+                                    {{ queue.date_end }}
+                                </span>
+                            {% else %}
+                                <span class="bg-success p-2 text-white">
+                                    Успешно!
+                                </span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    </section>
+    <!-- end contact section -->
+
+{% endblock %}
