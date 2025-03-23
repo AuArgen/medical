@@ -100,13 +100,23 @@ def LogoutPage(request):
 def DcotorPage(request, pk):
     website = Website.objects.first()
     doctor = Doctor.objects.get(id=pk)
-    queues = QueuePatient.objects.filter(doctor=doctor,).order_by('-id').order_by('order')
+    queues = QueuePatient.objects.filter(doctor=doctor, ).order_by('-id').order_by('order')
     context = {
         'website': website,
         'doctor': doctor,
         'queues': queues,
     }
     return render(request, 'doctor.html', context)
+
+
+def DirectionPage(request, pk):
+    website = Website.objects.first()
+    direction = Directions.objects.get(id=pk)
+    context = {
+        'website': website,
+        'direction': direction,
+    }
+    return render(request, 'direction.html', context)
 
 
 def DcotorQueuePage(request, pk):

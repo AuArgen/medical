@@ -8,4 +8,5 @@ urlpatterns = [
     path('logout', LogoutPage, name='logout'),
     path('doctor/<int:pk>', DcotorPage, name='doctor'),
     path('doctor/queue/<int:pk>', DcotorQueuePage, name='queue'),
+    path('direction/<int:pk>', DirectionPage, name='direction'),
 ]
